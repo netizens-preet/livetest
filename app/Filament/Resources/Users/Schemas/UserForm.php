@@ -140,7 +140,7 @@ class UserForm
                     Tabs\Tab::make('User Addresses')
                         ->icon('heroicon-o-map-pin')
                         ->schema([
-                            Repeater::make('addresses')
+                            Repeater::make('address')
                                 ->minItems(1)
                                 ->maxItems(3)
                                 ->schema([

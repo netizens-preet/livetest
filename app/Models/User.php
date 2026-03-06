@@ -4,18 +4,22 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 use App\Role;
+use App\Status;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmail, FilamentUser
 {
     // public const admin = 'admin';
     // public const customer = 'customer';
@@ -71,7 +75,24 @@ class User extends Authenticatable implements MustVerifyEmail
             'interests' => 'array',
             'preferences' => 'array',
             'trust_score' => 'integer',
+            'status' => Status::class,
+            'address' => 'array',
         ];
+    }
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        // $user = Auth::user();
+        // $panel = $panel->getId();
+
+        // if($panel == 'admin'){
+        //     dump('panel:' . $panel);
+        //     dd($user->toArray());
+        //     return $user->role == Role::Admin;
+        // }
+
+        // return false;
+        return true;
     }
 
     //relation with post
