@@ -3,6 +3,10 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Resources\Users\Widgets\UserStatsOverview;
+use App\Filament\Widgets\PostsActivityChart;
+use App\Filament\Widgets\RecentPostsWidget;
+use App\Filament\Widgets\UserRegistrationsChart;
+use App\Filament\Widgets\UserStatsOverview as WidgetsUserStatsOverview;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -41,8 +45,12 @@ class AdminPanelProvider extends PanelProvider
             ->pages([
                 Dashboard::class,
             ])
-            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
+            // ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
             ->widgets([
+                WidgetsUserStatsOverview::class,
+                UserRegistrationsChart::class,
+                PostsActivityChart::class,
+                RecentPostsWidget::class,
                 AccountWidget::class,
                 FilamentInfoWidget::class,
 
@@ -62,6 +70,6 @@ class AdminPanelProvider extends PanelProvider
                 Authenticate::class,
             ]);
 
-            
+
     }
 }
