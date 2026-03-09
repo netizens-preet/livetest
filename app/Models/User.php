@@ -8,6 +8,7 @@ use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use App\Role;
 use App\Status;
+use App\PostStatus;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -77,6 +78,7 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
             'trust_score' => 'integer',
             'status' => Status::class,
             'address' => 'array',
+
         ];
     }
 
@@ -112,28 +114,28 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
             ->map(fn ($word) => Str::substr($word, 0, 1))
             ->implode('');
     }
-    public function getStatusColor(): string
-    {
-        return match ($this->status) {
-            'active' => 'success',
-            'suspended' => 'warning',
-            'banned' => 'danger',
-            default => 'gray',
-        };
-    }
+    // public function getStatusColor(): string
+    // {
+    //     return match ($this->status) {
+    //         'active' => 'success',
+    //         'suspended' => 'warning',
+    //         'banned' => 'danger',
+    //         default => 'gray',
+    //     };
+    // }
 
     /**
      * Get the Heroicon name based on the status.
-     */
-    public function getStatusIcon(): string
-    {
-        return match ($this->status) {
-            'active' => 'heroicon-m-check-circle',
-            'suspended' => 'heroicon-m-exclamation-triangle',
-            'banned' => 'heroicon-m-no-symbol',
-            default => 'heroicon-m-question-mark-circle',
-        };
-    }
+    //  */
+    // public function getStatusIcon(): string
+    // {
+    //     return match ($this->status) {
+    //         'active' => 'heroicon-m-check-circle',
+    //         'suspended' => 'heroicon-m-exclamation-triangle',
+    //         'banned' => 'heroicon-m-no-symbol',
+    //         default => 'heroicon-m-question-mark-circle',
+    //     };
+    // }
     // public function isAdmin(): bool
     // {
     //     return $this->hasRole(self::admin);

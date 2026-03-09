@@ -6,6 +6,7 @@ use App\Filament\Resources\Users\Pages\CreateUser;
 use App\Filament\Resources\Users\Pages\EditUser;
 use App\Filament\Resources\Users\Pages\ListUsers;
 use App\Filament\Resources\Users\Pages\ViewUser;
+use App\Filament\Resources\Users\RelationManagers\PostsRelationManager;
 use App\Filament\Resources\Users\Schemas\UserForm;
 use App\Filament\Resources\Users\Schemas\UserInfolist;
 use App\Filament\Resources\Users\Tables\UsersTable;
@@ -44,7 +45,7 @@ class UserResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            PostsRelationManager::class,
         ];
     }
 
