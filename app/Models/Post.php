@@ -1,40 +1,62 @@
 <?php
 
 namespace App\Models;
-
+use App\Enums\PostStatus;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str as SupportStr;
-use Pest\Support\Str;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 
 class Post extends Model
 {
+   use SoftDeletes;
+
     protected $fillable = [
         'user_id',
         'title',
         'slug',
-        'featured_image',
-        'excerpt',
-        'content',
+        'body',
+        'published_at',
         'status',
     ];
-    public function casts()
+
+    protected function casts(): array
     {
         return [
             'published_at' => 'datetime',
+            'status' => PostStatus::class,
         ];
-
     }
-    public function user()
+
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+    public function canAccessPanel(Panel $panel): bool
+    {
+        // $user = Auth::user();
+        // $panel = $panel->getId();
+
+        // if($panel == 'admin'){
+        //     dump('panel:' . $panel);
+        //     dd($user->toArray());
+        //     return $user->role == Role::Admin;
+        // }
+
+        // return false;
+        return true;
     }
     protected static function boot()
     {
         parent::boot();
+
         static::creating(function ($post) {
             if (empty($post->slug)) {
-            $post->slug = SupportStr::slug($post->title);
+                $post->slug = Str::slug($post->title);
             }
+
+
         });
     }
 }
