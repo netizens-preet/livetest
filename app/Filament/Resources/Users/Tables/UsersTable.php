@@ -4,36 +4,35 @@ namespace App\Filament\Resources\Users\Tables;
 
 use App\Filament\Exports\UserExporter;
 use App\Models\User;
-use App\Status; // Ensure this matches your Enum namespace
+use App\Status;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ExportBulkAction;
+use Filament\Actions\Exports\Enums\ExportFormat;
+use Filament\Actions\ViewAction as ActionsViewAction;
 use Filament\Forms\Components\Textarea;
 use Filament\Support\Enums\FontWeight;
-use Filament\Tables\Table;
-
-use Filament\Tables;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\Summarizers\Average;
+use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Filters\TrashedFilter;
-use Filament\Actions\Exports\Enums\ExportFormat;
-use Filament\Actions\ViewAction as ActionsViewAction;
-use Filament\Infolists\Components\TextEntry;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Notifications\Action as NotificationsAction;
+use Filament\Tables\Grouping\Group;
+use Filament\Tables\Table;
 
 class UsersTable
 {
     public static function configure(Table $table): Table
     {
         return $table
+            ->reorderable('order')
+            ->defaultSort('order', 'asc')
             ->columns([
                 ImageColumn::make('profile_photo')
                     ->circular()
@@ -56,6 +55,19 @@ class UsersTable
                 TextColumn::make('status')
                     ->badge(),
 
+                // TextColumn::make('posts_count')->sortable()->counts('posts')
+                //     ->summarize([
+                //         Sum::make()->label('Total Posts'),
+                //         Average::make()->label('Avg Post'),
+                //     ]),
+
+                TextColumn::make('posts_count')->sortable()->counts('posts'),
+                TextColumn::make('published_posts_count')->sortable()->counts('publishedPosts'),
+                    // ->summarize([
+                    //     Sum::make()->label('Total Posts'),
+                    //     Average::make()->label('Avg Post'),
+                    // ]),
+
                 IconColumn::make('email_verified_at')
                     ->label('Verified')
                     ->getStateUsing(fn ($record): bool => filled($record->email_verified_at))
@@ -77,13 +89,24 @@ class UsersTable
             ->emptyStateDescription('Please add Users')
             ->emptyStateIcon('heroicon-o-users')
             ->filtersFormColumns(2)
+
+            ->groups([
+                Group::make('role')
+                    ->label('User Role')
+                    ->collapsible(),
+
+                Group::make('status')
+                    ->label('User Status')
+                    ->collapsible(),
+            ])->defaultGroup('role')
+
             // 1. Row Actions (Individual user management)
-            ->actions([
+            ->recordActions([
                 EditAction::make()->slideOver(),
                 ActionsViewAction::make()->modalWidth('2xl'),
 
                 // Verify Email Action
-                    Action::make('verify_email')
+                Action::make('verify_email')
                     ->label('Verify')
                     ->icon('heroicon-o-check-badge')
                     ->color('success')
@@ -127,7 +150,7 @@ class UsersTable
             ])
 
             // 2. Bulk Actions (Operations on multiple selected rows)
-            ->bulkActions([
+            ->toolbarActions([
                 BulkActionGroup::make([
                     ExportBulkAction::make()
                         ->label('Export CSV')

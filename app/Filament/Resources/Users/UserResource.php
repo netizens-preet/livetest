@@ -10,6 +10,7 @@ use App\Filament\Resources\Users\RelationManagers\PostsRelationManager;
 use App\Filament\Resources\Users\Schemas\UserForm;
 use App\Filament\Resources\Users\Schemas\UserInfolist;
 use App\Filament\Resources\Users\Tables\UsersTable;
+use App\Filament\Resources\Users\Widgets\UserStatsOverview;
 use App\Models\User;
 use BackedEnum;
 use Filament\Resources\Resource;
@@ -45,9 +46,16 @@ class UserResource extends Resource
     public static function getRelations(): array
     {
         return [
-            PostsRelationManager::class,
+           'posts' => PostsRelationManager::class,
         ];
     }
+
+//     public static function getWidgets(): array
+// {
+//     return [
+//         UserStatsOverview::class,
+//     ];
+// }
 
     public static function getPages(): array
     {

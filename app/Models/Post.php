@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Models;
-use App\Enums\PostStatus;
+use App\PostStatus;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
@@ -33,20 +34,7 @@ class Post extends Model
     {
         return $this->belongsTo(User::class);
     }
-    public function canAccessPanel(Panel $panel): bool
-    {
-        // $user = Auth::user();
-        // $panel = $panel->getId();
 
-        // if($panel == 'admin'){
-        //     dump('panel:' . $panel);
-        //     dd($user->toArray());
-        //     return $user->role == Role::Admin;
-        // }
-
-        // return false;
-        return true;
-    }
     protected static function boot()
     {
         parent::boot();
