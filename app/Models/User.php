@@ -103,6 +103,12 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
         return $this->hasMany(Post::class);
     }
 
+    // Draft
+    public function draftPosts(): HasMany
+    {
+        return $this->posts()->where('status', PostStatus::Draft);
+    }
+
     /**
      * Get the user's initials
      */

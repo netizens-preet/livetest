@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Enums; // Recommended namespace for Enums
+namespace App; // Recommended namespace for Enums
 
 use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasIcon;

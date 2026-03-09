@@ -45,7 +45,7 @@ class UserResource extends Resource
     public static function getRelations(): array
     {
         return [
-            PostsRelationManager::class,
+           'posts' => PostsRelationManager::class,
         ];
     }
 
