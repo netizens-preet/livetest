@@ -54,11 +54,19 @@ class UsersTable
                 // Using the Enum's built-in methods for the badge
                 TextColumn::make('status')
                     ->badge(),
-                TextColumn::make('posts_count')->sortable()->counts('posts')
-                    ->summarize([
-                        Sum::make()->label('Total Posts'),
-                        Average::make()->label('Avg Post'),
-                    ]),
+
+                // TextColumn::make('posts_count')->sortable()->counts('posts')
+                //     ->summarize([
+                //         Sum::make()->label('Total Posts'),
+                //         Average::make()->label('Avg Post'),
+                //     ]),
+
+                TextColumn::make('posts_count')->sortable()->counts('posts'),
+                TextColumn::make('published_posts_count')->sortable()->counts('publishedPosts'),
+                    // ->summarize([
+                    //     Sum::make()->label('Total Posts'),
+                    //     Average::make()->label('Avg Post'),
+                    // ]),
 
                 IconColumn::make('email_verified_at')
                     ->label('Verified')

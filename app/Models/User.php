@@ -20,6 +20,7 @@ use Illuminate\Support\Str;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Spatie\Permission\Traits\HasRoles;
 
+
 class User extends Authenticatable implements MustVerifyEmail, FilamentUser
 {
     // public const admin = 'admin';
@@ -108,6 +109,11 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
     public function draftPosts(): HasMany
     {
         return $this->posts()->where('status', PostStatus::Draft);
+    }
+
+    public function publishedPosts(): HasMany
+    {
+        return $this->posts()->where('status', PostStatus::Published);
     }
 
     /**
