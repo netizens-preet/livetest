@@ -48,6 +48,7 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
         'label_color',
         'trust_score',
         'custom_css',
+        'order'
     ];
 
     /**

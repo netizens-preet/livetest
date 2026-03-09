@@ -17,6 +17,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -105,9 +106,9 @@ class PostsRelationManager extends RelationManager
                         // 'Draft'=> 'draft',
                         // 'Published' => 'published',
                         // 'Archived'=> 'archived',
-                        PostStatus::class)->default(PostStatus::Draft),
-                DateTimePicker::make('published_at')->nullable(),
-                // ...
+                        PostStatus::class)->default(PostStatus::Draft)->live(),
+                DateTimePicker::make('published_at')->nullable()
+                ->visible(fn (Get $get) => $get('status') == PostStatus::Published)->live(),
             ]);
     }
 
