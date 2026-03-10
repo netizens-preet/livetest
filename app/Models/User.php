@@ -2,32 +2,42 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use Filament\Auth\MultiFactor\App\Concerns\InteractsWithAppAuthentication;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use App\Role;
 use App\Status;
 use App\PostStatus;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Filament\Auth\MultiFactor\App\Concerns\InteractsWithAppAuthenticationRecovery;
+use Filament\Auth\MultiFactor\App\Contracts\HasAppAuthentication;
+use Filament\Auth\MultiFactor\App\Contracts\HasAppAuthenticationRecovery;
+use Filament\Auth\MultiFactor\Email\Concerns\InteractsWithEmailAuthentication;
+use Filament\Auth\MultiFactor\Email\Contracts\HasEmailAuthentication;
+use Filament\Models\Contracts\HasAvatar;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Spatie\Permission\Traits\HasRoles;
 
 
-class User extends Authenticatable implements MustVerifyEmail, FilamentUser
+class User extends Authenticatable implements MustVerifyEmail, HasAvatar, FilamentUser, HasAppAuthentication, HasEmailAuthentication ,HasAppAuthenticationRecovery
 {
     // public const admin = 'admin';
     // public const customer = 'customer';
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, TwoFactorAuthenticatable, HasRoles;
     use SoftDeletes;
+    use InteractsWithAppAuthentication;
+    use InteractsWithAppAuthenticationRecovery;
+    use InteractsWithEmailAuthentication;
     /**
      * The attributes that are mass assignable.
      *
@@ -114,6 +124,16 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
     public function publishedPosts(): HasMany
     {
         return $this->posts()->where('status', PostStatus::Published);
+    }
+
+    public function getFilamentAvatarUrl(): ?string
+    {
+
+
+        // Use the Storage facade to get the URL for the 'public' disk
+        return $this->profile_photo
+            ? Storage::disk('public')->url($this->profile_photo)
+            : null;
     }
 
     /**

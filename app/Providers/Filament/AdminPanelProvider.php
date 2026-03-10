@@ -7,6 +7,8 @@ use App\Filament\Widgets\PostsActivityChart;
 use App\Filament\Widgets\RecentPostsWidget;
 use App\Filament\Widgets\UserRegistrationsChart;
 use App\Filament\Widgets\UserStatsOverview as WidgetsUserStatsOverview;
+use Filament\Auth\MultiFactor\App\AppAuthentication;
+use Filament\Auth\MultiFactor\Email\EmailAuthentication;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -32,7 +34,7 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-
+            ->profile(isSimple: false)
             ->login()
             ->colors([
                 'primary' => Color::Amber,
@@ -40,6 +42,7 @@ class AdminPanelProvider extends PanelProvider
             ->registration()
             ->emailVerification()
             ->databaseNotifications()
+           ->discoverClusters(in: app_path('Filament/Clusters'), for: 'App\Filament\Clusters')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
             ->pages([
@@ -68,7 +71,18 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+            ])
+
+            ->multiFactorAuthentication([
+            AppAuthentication::make()
+            ->recoverable()
+            ->recoveryCodeCount(10)
+            ->codeWindow(4)
+            ->brandName('Admin Desk'),
+
+            EmailAuthentication::make()
+            ->codeExpiryMinutes(2),
+        ],isRequired: false);
 
 
     }
