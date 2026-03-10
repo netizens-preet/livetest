@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Users\RelationManagers;
 
+use App\Filament\Clusters\Content\ContentCluster;
 use App\Models\Post;
 use App\PostStatus;
 use Filament\Actions\Action;
@@ -26,6 +27,7 @@ use Filament\Tables\Table;
 class PostsRelationManager extends RelationManager
 {
     protected static string $relationship = 'posts';
+    
 
     public function table(Table $table): Table
     {

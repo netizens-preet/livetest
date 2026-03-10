@@ -12,7 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('role')->default('user')->after('email');
+            $table->string('role')->default('customer')->after('email');
+             $table->text('app_authentication_recovery_codes')->nullable();
+            $table->text('app_authentication_secret')->nullable();
+            $table->boolean('has_email_authentication')->default(false);
         });
     }
 
