@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Users;
 
+use App\Filament\Clusters\Content\ContentCluster;
 use App\Filament\Resources\Users\Pages\CreateUser;
 use App\Filament\Resources\Users\Pages\EditUser;
 use App\Filament\Resources\Users\Pages\ListUsers;
@@ -23,6 +24,8 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
+
+    protected static ?string $cluster = ContentCluster::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
@@ -46,16 +49,16 @@ class UserResource extends Resource
     public static function getRelations(): array
     {
         return [
-           'posts' => PostsRelationManager::class,
+            'posts' => PostsRelationManager::class,
         ];
     }
 
-//     public static function getWidgets(): array
-// {
-//     return [
-//         UserStatsOverview::class,
-//     ];
-// }
+    //     public static function getWidgets(): array
+    // {
+    //     return [
+    //         UserStatsOverview::class,
+    //     ];
+    // }
 
     public static function getPages(): array
     {

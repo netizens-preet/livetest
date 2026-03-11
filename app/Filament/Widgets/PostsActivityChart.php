@@ -3,18 +3,20 @@
 namespace App\Filament\Widgets;
 
 use App\Models\Post;
+use Filament\Widgets\ChartWidget;
 use Flowframe\Trend\Trend;
 use Flowframe\Trend\TrendValue;
-use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Carbon;
 
 class PostsActivityChart extends ChartWidget
 {
     protected ?string $heading = 'Posts Activity — Last 30 Days';
+
     // Spans the remaining 1 column
-    protected int | string | array $columnSpan = 1;
+    protected int|string|array $columnSpan = 1;
+
     // Polling interval must be static
-    protected  ?string $pollingInterval = '60s';
+    protected ?string $pollingInterval = '60s';
 
     // Set the color to primary (non-static)
     protected string $color = 'primary';
@@ -37,7 +39,6 @@ class PostsActivityChart extends ChartWidget
             ->{$activeFilter === 'today' ? 'perHour' : 'perDay'}()
             ->count();
 
-
         return [
             'datasets' => [
                 [
@@ -45,12 +46,12 @@ class PostsActivityChart extends ChartWidget
                     'data' => $data->map(fn (TrendValue $value) => $value->aggregate),
                 ],
             ],
-           'labels' => $data->map(fn (TrendValue $value) => match ($activeFilter) {
+            'labels' => $data->map(fn (TrendValue $value) => match ($activeFilter) {
                 'today' => Carbon::parse($value->date)->format('H:i'),
                 'year' => Carbon::parse($value->date)->format('M'),
                 default => Carbon::parse($value->date)->format('d M'),
             }),
-            ];
+        ];
     }
 
     protected function getType(): string
@@ -59,12 +60,12 @@ class PostsActivityChart extends ChartWidget
     }
 
     protected function getFilters(): ?array
-{
-    return [
-        'today' => 'Today',
-        'week' => 'Last week',
-        'month' => 'Last month',
-        'year' => 'This year',
-    ];
-}
+    {
+        return [
+            'today' => 'Today',
+            'week' => 'Last week',
+            'month' => 'Last month',
+            'year' => 'This year',
+        ];
+    }
 }

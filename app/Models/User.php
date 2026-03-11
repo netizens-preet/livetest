@@ -2,20 +2,19 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-
-use Filament\Auth\MultiFactor\App\Concerns\InteractsWithAppAuthentication;
-use Filament\Models\Contracts\FilamentUser;
-use Filament\Panel;
+use App\PostStatus;
 use App\Role;
 use App\Status;
-use App\PostStatus;
+use Filament\Auth\MultiFactor\App\Concerns\InteractsWithAppAuthentication;
 use Filament\Auth\MultiFactor\App\Concerns\InteractsWithAppAuthenticationRecovery;
 use Filament\Auth\MultiFactor\App\Contracts\HasAppAuthentication;
 use Filament\Auth\MultiFactor\App\Contracts\HasAppAuthenticationRecovery;
 use Filament\Auth\MultiFactor\Email\Concerns\InteractsWithEmailAuthentication;
 use Filament\Auth\MultiFactor\Email\Contracts\HasEmailAuthentication;
+use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasAvatar;
+use Filament\Panel;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -27,17 +26,18 @@ use Illuminate\Support\Str;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Spatie\Permission\Traits\HasRoles;
 
-
-class User extends Authenticatable implements MustVerifyEmail, HasAvatar, FilamentUser, HasAppAuthentication, HasEmailAuthentication ,HasAppAuthenticationRecovery
+class User extends Authenticatable implements FilamentUser, HasAppAuthentication, HasAppAuthenticationRecovery, HasAvatar, HasEmailAuthentication, MustVerifyEmail
 {
     // public const admin = 'admin';
     // public const customer = 'customer';
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, TwoFactorAuthenticatable, HasRoles;
-    use SoftDeletes;
+    use HasFactory, HasRoles, Notifiable, TwoFactorAuthenticatable;
+
     use InteractsWithAppAuthentication;
     use InteractsWithAppAuthenticationRecovery;
     use InteractsWithEmailAuthentication;
+    use SoftDeletes;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -59,7 +59,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasAvatar, Filame
         'label_color',
         'trust_score',
         'custom_css',
-        'order'
+        'order',
     ];
 
     /**
@@ -109,8 +109,8 @@ class User extends Authenticatable implements MustVerifyEmail, HasAvatar, Filame
         return true;
     }
 
-    //relation with post
-    public function posts():HasMany
+    // relation with post
+    public function posts(): HasMany
     {
         return $this->hasMany(Post::class);
     }
@@ -128,7 +128,6 @@ class User extends Authenticatable implements MustVerifyEmail, HasAvatar, Filame
 
     public function getFilamentAvatarUrl(): ?string
     {
-
 
         // Use the Storage facade to get the URL for the 'public' disk
         return $this->profile_photo
