@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('role')->default('customer')->after('email');
-             $table->text('app_authentication_recovery_codes')->nullable();
+            $table->text('app_authentication_recovery_codes')->nullable();
             $table->text('app_authentication_secret')->nullable();
             $table->boolean('has_email_authentication')->default(false);
         });

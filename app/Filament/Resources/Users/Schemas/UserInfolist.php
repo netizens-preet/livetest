@@ -52,7 +52,7 @@ class UserInfolist
                             ]),
 
                     ]),
-            
+
                 Section::make('Account')
                     ->schema([
                         TextEntry::make('role')->badge(),
