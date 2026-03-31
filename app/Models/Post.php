@@ -1,17 +1,16 @@
 <?php
 
 namespace App\Models;
+
 use App\PostStatus;
-use Filament\Panel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
 class Post extends Model
 {
-   use SoftDeletes;
+    use SoftDeletes;
 
     protected $fillable = [
         'user_id',
@@ -43,7 +42,6 @@ class Post extends Model
             if (empty($post->slug)) {
                 $post->slug = Str::slug($post->title);
             }
-
 
         });
     }

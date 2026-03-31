@@ -63,10 +63,10 @@ class UsersTable
 
                 TextColumn::make('posts_count')->sortable()->counts('posts'),
                 TextColumn::make('published_posts_count')->sortable()->counts('publishedPosts'),
-                    // ->summarize([
-                    //     Sum::make()->label('Total Posts'),
-                    //     Average::make()->label('Avg Post'),
-                    // ]),
+                // ->summarize([
+                //     Sum::make()->label('Total Posts'),
+                //     Average::make()->label('Avg Post'),
+                // ]),
 
                 IconColumn::make('email_verified_at')
                     ->label('Verified')

@@ -17,7 +17,7 @@ class ViewUser extends ViewRecord
         ];
     }
 
-     public function hasCombinedRelationManagerTabsWithContent(): bool
+    public function hasCombinedRelationManagerTabsWithContent(): bool
     {
         return true;
     }

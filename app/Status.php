@@ -8,9 +8,9 @@ use Filament\Support\Contracts\HasLabel;
 
 enum Status: string implements HasColor, HasIcon, HasLabel
 {
-    case Active = "active";
-    case Suspended = "suspended";
-    case Banned = "banned";
+    case Active = 'active';
+    case Suspended = 'suspended';
+    case Banned = 'banned';
 
     public function getLabel(): ?string
     {
@@ -21,7 +21,7 @@ enum Status: string implements HasColor, HasIcon, HasLabel
         };
     }
 
-    public function getColor(): string | array | null
+    public function getColor(): string|array|null
     {
         return match ($this) {
             self::Active => 'success',   // Green

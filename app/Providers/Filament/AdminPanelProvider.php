@@ -2,7 +2,6 @@
 
 namespace App\Providers\Filament;
 
-use App\Filament\Resources\Users\Widgets\UserStatsOverview;
 use App\Filament\Widgets\PostsActivityChart;
 use App\Filament\Widgets\RecentPostsWidget;
 use App\Filament\Widgets\UserRegistrationsChart;
@@ -42,7 +41,7 @@ class AdminPanelProvider extends PanelProvider
             ->registration()
             ->emailVerification()
             ->databaseNotifications()
-           ->discoverClusters(in: app_path('Filament/Clusters'), for: 'App\Filament\Clusters')
+            ->discoverClusters(in: app_path('Filament/Clusters'), for: 'App\Filament\Clusters')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
             ->pages([
@@ -74,16 +73,15 @@ class AdminPanelProvider extends PanelProvider
             ])
 
             ->multiFactorAuthentication([
-            AppAuthentication::make()
-            ->recoverable()
-            ->recoveryCodeCount(10)
-            ->codeWindow(4)
-            ->brandName('Admin Desk'),
+                AppAuthentication::make()
+                    ->recoverable()
+                    ->recoveryCodeCount(10)
+                    ->codeWindow(4)
+                    ->brandName('Admin Desk'),
 
-            EmailAuthentication::make()
-            ->codeExpiryMinutes(2),
-        ],isRequired: false);
-
+                EmailAuthentication::make()
+                    ->codeExpiryMinutes(2),
+            ]);
 
     }
 }

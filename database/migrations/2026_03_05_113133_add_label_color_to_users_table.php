@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('label_color')->nullable();
             $table->integer('trust_score')->default(50)->nullable();
             $table->text('custom_css')->nullable();
-            });
+        });
     }
 
     /**

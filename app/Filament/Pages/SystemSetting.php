@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use App\Filament\Clusters\Settings\SettingsCluster;
 use App\Models\Setting;
 use BackedEnum;
 use Filament\Actions\Action;
@@ -25,6 +26,8 @@ class SystemSetting extends Page implements HasForms
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCog6Tooth;
 
+    protected static ?string $cluster = SettingsCluster::class;
+
     protected static ?string $navigationLabel = 'System Settings';
 
     protected static string|UnitEnum|null $navigationGroup = 'Settings';
@@ -39,19 +42,19 @@ class SystemSetting extends Page implements HasForms
     {
         $this->form->fill([
             // General
-            'site_name'         => Setting::get('site_name', 'StayDesk Admin'),
-            'timezone'          => Setting::get('timezone', 'Asia/Kolkata'),
-            'maintenance_mode'  => (bool) Setting::get('maintenance_mode', false),
+            'site_name' => Setting::get('site_name', 'StayDesk Admin'),
+            'timezone' => Setting::get('timezone', 'Asia/Kolkata'),
+            'maintenance_mode' => (bool) Setting::get('maintenance_mode', false),
 
             // Notifications
             'email_notifications' => (bool) Setting::get('email_notifications', true),
-            'db_notifications'    => (bool) Setting::get('db_notifications', true),
-            'admin_email'         => Setting::get('admin_email', ''),
+            'db_notifications' => (bool) Setting::get('db_notifications', true),
+            'admin_email' => Setting::get('admin_email', ''),
 
             // Display
-            'rows_per_page'       => Setting::get('rows_per_page', '25'),
-            'brand_color'         => Setting::get('brand_color', '#6366f1'),
-            'dark_mode_default'   => (bool) Setting::get('dark_mode_default', false),
+            'rows_per_page' => Setting::get('rows_per_page', '25'),
+            'brand_color' => Setting::get('brand_color', '#6366f1'),
+            'dark_mode_default' => (bool) Setting::get('dark_mode_default', false),
         ]);
     }
 
@@ -85,7 +88,7 @@ class SystemSetting extends Page implements HasForms
                                     ->label('Timezone')
                                     ->searchable()
                                     ->options(collect(timezone_identifiers_list())
-                                        ->mapWithKeys(fn($tz) => [$tz => $tz])
+                                        ->mapWithKeys(fn ($tz) => [$tz => $tz])
                                         ->toArray()),
 
                                 Toggle::make('maintenance_mode')
@@ -120,9 +123,9 @@ class SystemSetting extends Page implements HasForms
                                 Select::make('rows_per_page')
                                     ->label('Default Rows Per Page')
                                     ->options([
-                                        '10'  => '10 rows',
-                                        '25'  => '25 rows',
-                                        '50'  => '50 rows',
+                                        '10' => '10 rows',
+                                        '25' => '25 rows',
+                                        '50' => '50 rows',
                                         '100' => '100 rows',
                                     ]),
 
